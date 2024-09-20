@@ -1,0 +1,18 @@
+---
+services:
+  nginx:
+    image: nginxdemos/nginx-hello
+    container_name: nginx-demo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.rule=Host(`nginx-rm.duckdns.org`)"
+      - "traefik.http.routers.nginx.entrypoints=https"
+      - "traefik.http.routers.nginx.tls=true"
+      - "traefik.http.routers.nginx.tls.certresolver=production"
+      - "traefik.http.services.nginx.loadbalancer.server.port=8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
